@@ -19,6 +19,19 @@ struct rb_root_cached {
     struct rb_node* rb_leftmost;
 };
 
+#define __rb_color(pc) ((pc) & 1)
+#define rb_color(rb) __rb_color((rb)->__rb_parent_color)
+
+static inline void rb_set_parent(struct rb_node* rb, struct rb_node* p)
+{
+	rb->__rb_parent_color = rb_color(rb) | (unsigned long)p;
+}	
+
+static inline void rb_set_parent_color(struct rb_node* rb,
+									   struct rb_node* p, int color)
+{
+	rb->__rb_parent_color = (unsigned long)p | color;
+}
 
 
 #endif
